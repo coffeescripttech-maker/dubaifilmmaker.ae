@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile Config Test</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+      background: #1a1a1a;
+      color: #fff;
+    }
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #333;
+      border-radius: 5px;
+    }
+    .test-section h3 {
+      margin-top: 0;
+      color: #4CAF50;
+    }
+    .status {
+      padding: 5px 10px;
+      margin: 5px 0;
+      border-radius: 3px;
+    }
+    .status.success {
+      background: #4CAF50;
+      color: #000;
+    }
+    .status.error {
+      background: #f44336;
+      color: #fff;
+    }
+    .status.info {
+      background: #2196F3;
+      color: #fff;
+    }
+    pre {
+      background: #000;
+      padding: 10px;
+      border-radius: 3px;
+      overflow-x: auto;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      background: #4CAF50;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔧 Mobile Navigation Config Test</h1>
+  
+  <div class="test-section">
+    <h3>1. Config Loading Test</h3>
+    <div id="config-status"></div>
+    <button onclick="checkConfig()">Refresh Config Check</button>
+  </div>
+  
+  <div class="test-section">
+    <h3>2. Mobile Detection</h3>
+    <div id="mobile-status"></div>
+  </div>
+  
+  <div class="test-section">
+    <h3>3. CSS Classes Applied</h3>
+    <div id="classes-status"></div>
+    <button onclick="checkClasses()">Refresh Class Check</button>
+  </div>
+  
+  <div class="test-section">
+    <h3>4. Navigation Visibility</h3>
+    <div id="nav-status"></div>
+    <button onclick="checkNavigation()">Refresh Navigation Check</button>
+  </div>
+  
+  <div class="test-section">
+    <h3>5. Config Values</h3>
+    <pre id="config-values">Loading...</pre>
+  </div>
+  
+  <script src="assets/js/site-config.js"></script>
+  
+  <script>
+    function checkConfig() {
+      const configStatus = document.getElementById('config-status');
+      
+      if (window.siteConfig) {
+        configStatus.innerHTML = '<div class="status success">✅ window.siteConfig is loaded</div>';
+        displayConfigValues();
+      } else {
+        configStatus.innerHTML = '<div class="status error">❌ window.siteConfig is NOT loaded</div>';
+        setTimeout(checkConfig, 500); // Retry
+      }
+    }
+    
+    function checkMobile() {
+      const mobileStatus = document.getElementById('mobile-status');
+      const isMobile = window.matchMedia('(max-width: 767px)').matches;
+      const screenWidth = window.innerWidth;
+      
+      mobileStatus.innerHTML = `
+        <div class="status ${isMobile ? 'success' : 'info'}">
+          ${isMobile ? '📱 Mobile Device Detected' : '🖥️ Desktop Device Detected'}
+        </div>
+        <div class="status info">Screen Width: ${screenWidth}px</div>
+      `;
+    }
+    
+    function checkClasses() {
+      const classesStatus = document.getElementById('classes-status');
+      const htmlClasses = document.documentElement.classList;
+      
+      const hasSwipe = htmlClasses.contains('mobile-swipe-enabled');
+      const hasArrows = htmlClasses.contains('mobile-arrows-enabled');
+      const hasViewProject = htmlClasses.contains('mobile-view-project-enabled');
+      const hideWorks = htmlClasses.contains('hide-nav-works');
+      const hideAbout = htmlClasses.contains('hide-nav-about');
+      const hideContact = htmlClasses.contains('hide-nav-contact');
+      
+      classesStatus.innerHTML = `
+        <div class="status ${hasSwipe ? 'success' : 'info'}">
+          ${hasSwipe ? '✅' : '❌'} mobile-swipe-enabled
+        </div>
+        <div class="status ${hasArrows ? 'success' : 'info'}">
+          ${hasArrows ? '✅' : '❌'} mobile-arrows-enabled
+        </div>
+        <div class="status ${hasViewProject ? 'success' : 'info'}">
+          ${hasViewProject ? '✅' : '❌'} mobile-view-project-enabled
+        </div>
+        <div class="status ${hideWorks ? 'info' : 'success'}">
+          ${hideWorks ? '🔒' : '✅'} hide-nav-works ${hideWorks ? '(Works hidden)' : '(Works visible)'}
+        </div>
+        <div class="status ${hideAbout ? 'info' : 'success'}">
+          ${hideAbout ? '🔒' : '✅'} hide-nav-about ${hideAbout ? '(About hidden)' : '(About visible)'}
+        </div>
+        <div class="status ${hideContact ? 'info' : 'success'}">
+          ${hideContact ? '🔒' : '✅'} hide-nav-contact ${hideContact ? '(Contact hidden)' : '(Contact visible)'}
+        </div>
+      `;
+    }
+    
+    function checkNavigation() {
+      const navStatus = document.getElementById('nav-status');
+      
+      if (!window.siteConfig) {
+        navStatus.innerHTML = '<div class="status error">Config not loaded yet...</div>';
+        return;
+      }
+      
+      const navConfig = window.siteConfig.features?.navigation || {};
+      
+      navStatus.innerHTML = `
+        <div class="status ${navConfig.worksPage?.enabled ? 'success' : 'info'}">
+          ${navConfig.worksPage?.enabled ? '✅' : '❌'} Works Page: ${navConfig.worksPage?.enabled ? 'ENABLED' : 'DISABLED'}
+        </div>
+        <div class="status ${navConfig.aboutPage?.enabled ? 'success' : 'info'}">
+          ${navConfig.aboutPage?.enabled ? '✅' : '❌'} About Page: ${navConfig.aboutPage?.enabled ? 'ENABLED' : 'DISABLED'}
+        </div>
+        <div class="status ${navConfig.contactPage?.enabled ? 'success' : 'info'}">
+          ${navConfig.contactPage?.enabled ? '✅' : '❌'} Contact Page: ${navConfig.contactPage?.enabled ? 'ENABLED' : 'DISABLED'}
+        </div>
+      `;
+    }
+    
+    function displayConfigValues() {
+      const configValues = document.getElementById('config-values');
+      
+      if (!window.siteConfig) {
+        configValues.textContent = 'Config not loaded yet...';
+        return;
+      }
+      
+      const mobileNav = window.siteConfig.features?.mobileNavigation || {};
+      const homeBox = window.siteConfig.features?.homeBoxLinks || {};
+      const navigation = window.siteConfig.features?.navigation || {};
+      
+      configValues.textContent = JSON.stringify({
+        navigation: navigation,
+        mobileNavigation: mobileNav,
+        homeBoxLinks: homeBox
+      }, null, 2);
+    }
+    
+    // Auto-run checks
+    setInterval(() => {
+      checkConfig();
+      checkMobile();
+      checkClasses();
+      checkNavigation();
+    }, 1000);
+    
+    // Initial run
+    checkConfig();
+    checkMobile();
+    checkClasses();
+    checkNavigation();
+  </script>
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@700&amp;display=swap" rel="stylesheet">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/final_favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/final_favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/final_favicon/favicon-16x16.png">
+  <link rel="manifest" href="assets/favicons/final_favicon/site.webmanifest">
+  <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#000000">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="shortcut icon" type="image/x-icon" href="assets/favicons/final_favicon/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="assets/favicons/final_favicon/favicon.ico">
+  <link rel="stylesheet" href="3.7.8/plyr.css" />
+
+  <link href="assets/dist/build.min.css" rel="stylesheet">
+  <link href="assets/css/header-logo-match.css" rel="stylesheet">
+  <link href="assets/css/page-loading.css" rel="stylesheet">
+  <link href="assets/css/header-spacing-adjustment.css" rel="stylesheet">
+
+  <link rel="canonical" href="works.html" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content=" Works" />
+  <meta property="og:site_name" content="Poster" />
+  <meta property="og:url" content="works.html" />
+  <meta name="twitter:title" content=" Works" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <meta name="description"
+    content="Post-Production company based in the heart of Paris, dedicated to audiovisual production, advertisement, digital content, music video feature films & documentaries" />
+  <meta property="og:description"
+    content="Post-Production company based in the heart of Paris, dedicated to audiovisual production, advertisement, digital content, music video feature films & documentaries" />
+
+ <title> DubaiFilmMaker - Works</title>
+
+  <style>
+    /* Fix video thumbnail aspect ratio - prevent squishing */
+    .bloc-projects-listing .box--work__video.video-wrapper.has-poster img.video-img-poster {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+    }
+    
+    /* Ensure video wrapper maintains proper dimensions */
+    .bloc-projects-listing .box--work__video.video-wrapper {
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    /* Header styles loaded from data/header.json - prevent FOUC */
+    .header__logo {
+      object-fit: contain !important;
+      height: auto !important;
+      opacity: 0;
+      transition: opacity 0.15s ease-in;
+    }
+    
+    .header__logo.loaded {
+      opacity: 1;
+    }
+
+    /* Conditional: Force projects-nav to always be visible (controlled by config.json) */
+    body.projects-nav-always-visible .projects-nav,
+    body.projects-nav-always-visible .projects-nav .list--cat,
+    body.projects-nav-always-visible .projects-nav .list--cat li,
+    body.projects-nav-always-visible .projects-nav .list--cat li a {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    /* Ensure list items are inline for horizontal layout */
+    body.projects-nav-always-visible .projects-nav .list--cat li {
+      display: inline-block !important;
+    }
+
+    /* Prevent text truncation or hiding */
+    body.projects-nav-always-visible .projects-nav .list--cat li a {
+      white-space: nowrap !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      max-width: none !important;
+    }
+
+    /* Override any hiding rules from build.min.css */
+    body.projects-nav-always-visible .template-projects header .list--cat,
+    body.projects-nav-always-visible .template-projects header .projects-nav {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      visibility: visible !important;
+    }
+
+    /* Ensure visibility on all screen sizes when always-visible is enabled */
+    @media (max-width: 767px) {
+      body.projects-nav-always-visible .projects-nav,
+      body.projects-nav-always-visible .projects-nav .list--cat {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+    }
+
+    @media (min-width: 768px) {
+      body.projects-nav-always-visible .projects-nav,
+      body.projects-nav-always-visible .projects-nav .list--cat {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+    }
+
+    /* Category filtering styles */
+    .box--work.hidden {
+      display: none !important;
+    }
+
+    /* Force projects-nav to stay visible when filtering is active */
+    header.filter-active .projects-nav {
+      opacity: 1 !important;
+      visibility: visible !important;
+      display: block !important;
+    }
+
+    /* Ensure filter links remain visible and clickable when filter is active */
+    header.filter-active .header__navigations-wrapper {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    header.filter-active .list--cat {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+  </style>
+  
+  <!-- Apply config-based class for projects-nav visibility -->
+  <script>
+    (function() {
+      try {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/config.json', false);
+        xhr.send();
+        
+        if (xhr.status === 200) {
+          var config = JSON.parse(xhr.responseText);
+          
+          // Check if projectsNav.alwaysVisible is true
+          if (true) {
+            // Add class to body to enable always-visible CSS rules
+            document.documentElement.classList.add('projects-nav-always-visible');
+            console.log('✓ Projects navigation set to always visible');
+          } else {
+            console.log('✓ Projects navigation using default scroll-based visibility');
+          }
+        }
+      } catch (e) {
+        console.warn('Could not load config for projects-nav visibility:', e);
+      }
+    })();
+  </script>
+  
+
+</head>
+
+<body class="template-projects">
+
+  <main class="main">
+    <div class="app-container  ">
+      <div class="app-container-inner">
+        <header class="header">
+          <div class="header__nav">
+            <a href="index" data-navigo data-slug="homepage" class="logo-link">
+              <img class="header__logo" src="assets/img/final_logo.svg" alt="Dubai Film Maker" />
+            </a>
+            <a href="#main_menu" class="btn btn--menu">
+              <span>menu.</span>
+            </a>
+          </div>
+
+          <div class="header__navigations-wrapper">
+            <nav id="main_menu" class="header__subnav">
+              <ul>
+                <li data-slug="homepage">
+                  <a data-navigo data-slug="homepage" href="#">
+                    Homepage </a>
+                </li>
+                <li data-slug="works">
+                  <a data-navigo data-slug="works" aria-current="page" href="works">
+                    Works </a>
+                </li>
+                <li data-slug="about">
+                  <a data-navigo data-slug="about" href="about">
+                    About </a>
+                </li>
+                <li data-slug="contact">
+                  <a data-navigo data-slug="contact" href="contact">
+                    Contact </a>
+                </li>
+              </ul>
+            </nav>
+
+            <div class="projects-nav">
+              <ul class="list list--cat">
+                <li>
+                  <a href="#works" class="js-filter-cat is-active" data-cat="*">All</a>
+                </li>
+                <li>
+                  <a
+                    href="#works"
+                    class="js-filter-cat"
+                    data-cat="TVC"
+                    >TVC / Brand Films</a
+                  >
+                </li>
+
+                   <li>
+                    <a
+                      href="#works"
+                      class="js-filter-cat"
+                      data-cat="narrative"
+                      >Narrative Films</a
+                    >
+                  </li>
+
+              </ul>
+            </div>
+          </div>
+        </header>
+        <div class="page-inner-content">
+          <h1 class="hidden">Works</h1>
+
+          <div class="bloc-projects-listing">
+
+
+        <ul id="works-list-project" class="list list--works">
+          
+             
+              <!-- Additional projects from JSON will be loaded here -->
+        </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!--  -->
+       <script src="assets/js/intro-logo-size-sync.js"></script>
+  <script src="assets/js/data-loader.js"></script>
+  <script src="assets/js/page-renderer.js"></script>
+  <script src="assets/js/spa-router.js"></script>
+  <script src="assets/dist/build.min.js"></script>
+  <script src="assets/js/app-init.js"></script>
+  <script src="assets/js/site-config.js"></script>
+
+  <script>
+    // Re-initialize build.min.js hover effects after dynamic content loads
+    window.addEventListener('projects-rendered', function() {
+      console.log('🔄 Re-initializing build.min.js hover effects on works page...');
+      
+      // Find the bloc-projects-listing element
+      const projectsListing = document.querySelector('.bloc-projects-listing');
+      if (projectsListing) {
+        // Query all videos and re-attach hover listeners manually
+        const videos = projectsListing.querySelectorAll('.js-video');
+        console.log(`Found ${videos.length} videos to re-initialize`);
+        
+        videos.forEach(video => {
+          // Remove old listeners by cloning
+          const newVideo = video.cloneNode(true);
+          video.parentNode.replaceChild(newVideo, video);
+          
+          // Add hover listeners (matching build.min.js logic)
+          newVideo.addEventListener('mouseenter', function(e) {
+            const vid = e.target;
+            vid.currentTime = 0;
+            vid.parentElement.classList.add('show-video');
+            vid.play();
+            console.log('✓ Video playing on hover');
+          });
+          
+          newVideo.addEventListener('mouseleave', function(e) {
+            const vid = e.target;
+            vid.parentElement.classList.remove('show-video');
+            vid.pause();
+            if (!vid.parentElement.querySelector('.video-img-poster')) {
+              vid.currentTime = 0;
+            }
+            console.log('✓ Video stopped on leave');
+          });
+        });
+        
+        // Re-initialize cursor text animations for dynamically loaded projects
+        const cursorTextElements = projectsListing.querySelectorAll('.js-cursor-text-animated');
+        console.log(`Found ${cursorTextElements.length} cursor text elements to re-initialize`);
+        
+        cursorTextElements.forEach(cursorEl => {
+          const wrapper = cursorEl.closest('.js-has-cursor-text');
+          if (!wrapper) return;
+          
+          // Add mouseenter/mouseleave to show/hide cursor text
+          wrapper.addEventListener('mouseenter', function() {
+            cursorEl.classList.add('visible');
+            console.log('✓ Cursor text visible');
+          });
+          
+          wrapper.addEventListener('mouseleave', function() {
+            cursorEl.classList.remove('visible');
+            console.log('✓ Cursor text hidden');
+          });
+          
+          // Track mouse movement to position cursor text
+          wrapper.addEventListener('mousemove', function(e) {
+            const rect = cursorEl.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Update CSS custom properties for cursor position
+            const moovingElements = cursorEl.querySelectorAll('.mooving-elements');
+            moovingElements.forEach(el => {
+              el.style.setProperty('--x', `${x}px`);
+              el.style.setProperty('--y', `${y}px`);
+            });
+          });
+        });
+        
+        console.log('✓ Hover effects and cursor text re-initialized on works page');
+      }
+    }, { once: true });
+
+    // Category filtering - replicate build.min.js logic
+    window.addEventListener('projects-rendered', function() {
+      console.log('🔄 Initializing category filtering on works page...');
+      
+      const filterLinks = document.querySelectorAll('.js-filter-cat');
+      const worksList = document.querySelector('.list--works');
+      const header = document.querySelector('header.header');
+
+      if (!filterLinks.length || !worksList) {
+        console.warn('Filter links or works list not found');
+        return;
+      }
+      
+      // Store current filter state
+      let currentFilter = '*';
+      
+      // Add click handlers to filter links
+      filterLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const selectedCategory = this.getAttribute('data-cat');
+          console.log(`Filter clicked: ${selectedCategory}`);
+          
+          // Update active state on filter links
+          filterLinks.forEach(l => l.classList.remove('is-active'));
+          this.classList.add('is-active');
+          
+          // Store current filter
+          currentFilter = selectedCategory;
+          
+          // Get all work items
+          const allWorks = worksList.querySelectorAll('.box--work');
+          console.log(`Filtering ${allWorks.length} projects by category: ${selectedCategory}`);
+          
+          // Filter logic: show items matching filter or if filter is "*" (all)
+          allWorks.forEach(work => {
+            const workCategory = work.getAttribute('data-cat');
+            
+            // Case-insensitive comparison
+            const matches = selectedCategory === '*' || 
+                           (workCategory && workCategory.toLowerCase() === selectedCategory.toLowerCase());
+            
+            if (matches) {
+              work.classList.remove('hidden');
+              work.style.display = '';
+              console.log(`✓ Showing: ${work.querySelector('h2')?.textContent || 'Unknown'} (${workCategory})`);
+            } else {
+              work.classList.add('hidden');
+              work.style.display = 'none';
+              console.log(`✗ Hiding: ${work.querySelector('h2')?.textContent || 'Unknown'} (${workCategory})`);
+            }
+          });
+          
+          // Force header to stay in "on-works-section" state when filtering is active
+          // This ensures projects-nav remains visible even with fewer projects
+          if (header) {
+            if (selectedCategory === '*') {
+              // "All" filter - let normal scroll behavior control visibility
+              header.classList.remove('filter-active');
+              console.log('✓ Removed filter-active class - normal scroll behavior');
+            } else {
+              // Specific filter active - force projects-nav to stay visible
+              header.classList.add('on-works-section', 'filter-active');
+              console.log('✓ Added filter-active class - projects-nav forced visible');
+            }
+          }
+          
+          console.log(`✓ Filtering complete - showing projects with category: ${selectedCategory}`);
+        });
+      });
+      
+      console.log('✓ Category filtering initialized on works page');
+      
+      // Override scroll behavior to maintain projects-nav visibility during filtering
+      function preventScrollHide() {
+        const header = document.querySelector('header.header');
+        if (header && header.classList.contains('filter-active')) {
+          // Force on-works-section to stay active during filtering
+          if (!header.classList.contains('on-works-section')) {
+            header.classList.add('on-works-section');
+            console.log('✓ Maintained on-works-section during filtering');
+          }
+        }
+      }
+      
+      // Add scroll listener to maintain filter visibility
+      window.addEventListener('scroll', preventScrollHide);
+      
+      console.log('✓ Scroll override for filtering initialized on works page');
+    });
+  </script>
+
+  <!-- Cloudflare Web Analytics -->
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "624e41bf9bf046a88fa109aebee0d778"}'></script>
+</body>
+
+</html>

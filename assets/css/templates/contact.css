@@ -1,0 +1,97 @@
+/**
+ * Contact Page - Right Side Position with Left-Aligned Text
+ * Blocks positioned on the right side, but text is left-aligned within each block
+ * "Dubai, UAE" as the vertical alignment anchor
+ */
+
+/* Desktop: Position blocks on right side with left-aligned text */
+@media (min-width: 768px) {
+  /* Position wrapper content to the right */
+  .contact-inner-wrapper {
+    align-items: flex-end !important;
+    flex-direction: column !important;
+  }
+  
+  /* Staff block - positioned right, text left-aligned */
+  .box--staff {
+    align-self: flex-end !important;
+    text-align: left !important;
+    max-width: fit-content !important;
+  }
+  
+  /* Address block - positioned right, text left-aligned */
+  .box--address {
+    align-self: flex-end !important;
+    text-align: left !important;
+    max-width: fit-content !important;
+  }
+  
+  /* Staff list - text left-aligned */
+  .list--staff {
+    text-align: left !important;
+  }
+  
+  .list--staff > li {
+    text-align: left !important;
+  }
+  
+  .list--staff h2 {
+    text-align: left !important;
+  }
+  
+  .list--members {
+    text-align: left !important;
+  }
+  
+  .list--members > li {
+    text-align: left !important;
+  }
+  
+  /* Address paragraphs - text left-aligned */
+  .box--address p {
+    text-align: left !important;
+  }
+}
+
+/* Mobile - right side with left-aligned text (matching desktop) */
+@media (max-width: 767px) {
+  .contact-inner-wrapper {
+    align-items: flex-end !important;
+  }
+  
+  .box--staff,
+  .box--address {
+    align-self: flex-end !important;
+    text-align: left !important;
+    max-width: fit-content !important;
+  }
+  
+  .list--staff,
+  .list--members,
+  .box--address p {
+    text-align: left !important;
+  }
+}
+
+/* Contact label fix - ensure proper spacing */
+.contact-label {
+  letter-spacing: 0 !important;
+  word-spacing: 0 !important;
+  margin-right: 0.3em !important;
+  padding-right: 0 !important;
+  display: inline !important;
+}
+
+/* Links in contact section */
+.box--address a,
+.list--members a {
+  text-align: left !important;
+  display: inline !important;
+}
+
+/* Dubai, UAE anchor - the main alignment reference point */
+.box--address p:first-child {
+  text-align: left !important;
+  margin-bottom: 1rem !important;
+}
+

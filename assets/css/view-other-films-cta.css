@@ -1,0 +1,83 @@
+/* View Other Films CTA Styling - Matching Mobile Link Style */
+
+.view-other-films-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 11px 14px;
+  background: transparent;
+  border: 1px solid var(--light-color, #ffffff);
+  border-radius: 20px; /* Rounded pill style like mobile link */
+  color: var(--light-color, #ffffff);
+  font-family: 'Azeret Mono', sans-serif, system-ui;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: background 0.3s var(--main-bezier, cubic-bezier(0.2, 0, 0.8, 1)), 
+              color 0.3s var(--main-bezier, cubic-bezier(0.2, 0, 0.8, 1));
+  cursor: pointer;
+  position: relative;
+}
+
+/* Hover effect - fill background */
+@media (hover: hover) {
+  .view-other-films-cta:hover {
+    background: var(--light-color, #ffffff);
+    color: var(--dark-color, #000000);
+  }
+  
+  .view-other-films-cta:hover .cta-arrow {
+    transform: translateX(4px);
+  }
+}
+
+/* Active state */
+.view-other-films-cta:active {
+  background: var(--light-color, #ffffff);
+  color: var(--dark-color, #000000);
+}
+
+.view-other-films-cta .cta-text {
+  position: relative;
+  z-index: 1;
+}
+
+.view-other-films-cta .cta-arrow {
+  position: relative;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s var(--main-bezier, cubic-bezier(0.2, 0, 0.8, 1));
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .view-other-films-cta {
+    font-size: 12px;
+    padding: 10px 14px;
+    margin-top: 16px;
+  }
+
+  .view-other-films-cta .cta-arrow {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .view-other-films-cta {
+    font-size: 11px;
+    padding: 9px 12px;
+    margin-top: 12px;
+    gap: 6px;
+  }
+
+  .view-other-films-cta .cta-arrow {
+    width: 16px;
+    height: 16px;
+  }
+}

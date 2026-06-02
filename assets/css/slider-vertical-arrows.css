@@ -1,0 +1,92 @@
+/* Desktop slider navigation arrows - reuse mobile arrow classes */
+.slider-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 65px;
+  height: 65px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 5;
+  pointer-events: auto;
+  padding: 0;
+}
+
+.slider-nav-arrow svg {
+  width: 20px; /* Reduced from 24px */
+  height: 32px; /* Reduced from 36px */
+  transition: all 0.3s ease;
+}
+
+/* Make SVG strokes thinner */
+.slider-nav-arrow svg path,
+.slider-nav-arrow svg polyline,
+.slider-nav-arrow svg line {
+  stroke-width: 1px; /* Thin stroke */
+  vector-effect: non-scaling-stroke; /* Keep stroke width consistent */
+}
+
+.slider-nav-arrow:hover {
+  color: rgba(255, 255, 255, 1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.slider-nav-arrow:hover svg {
+  transform: scale(1.15);
+}
+
+.slider-nav-arrow:active {
+  transform: translateY(-50%) scale(1);
+}
+
+.slider-nav-arrow.arrow-prev {
+  left: -3rem;
+}
+
+.slider-nav-arrow.arrow-next {
+  right: -3rem;
+}
+
+/* Also style the mobile arrows (← →) to be thinner */
+.arrows button {
+  font-weight: 200; /* Thinner font weight */
+  font-size: 24px;
+}
+
+.arrows .arrow-prev,
+.arrows .arrow-next {
+  font-weight: 200; /* Thinner arrows */
+}
+
+
+
+/* Mobile: hide these desktop arrows since mobile has its own at bottom */
+@media (max-width: 767px) {
+  .slider-nav-arrow {
+    display: none;
+  }
+}
+
+/* Adjust slider wrapper to accommodate arrows */
+.slider-wrapper {
+  position: relative;
+}
+
+/* Optional: Hide arrows when list is short enough to fit without scrolling */
+.slider-wrapper.no-scroll .slider-arrow {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Disable arrow when at start/end */
+.slider-arrow:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+  pointer-events: none;
+}

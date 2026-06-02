@@ -1,0 +1,133 @@
+/* Intro Text/Logo - Works for both text and SVG image */
+/* Uses .intro-logo-svg class for size sync compatibility */
+/* Styles match capture-preloader-as-svg.html preview */
+
+.intro-logo-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  pointer-events: none;
+  
+  /* For text mode - exact styles from capture-preloader preview */
+  display: flex;
+  gap: 0;
+  font-family: 'Monument Extended Bold', sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  /* white-space: nowrap;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  max-width: none; */
+  /* font-size will be set by JavaScript intro-logo-size-sync.js */
+  
+  /* For image mode - these won't affect text */
+  max-height: 80px;
+}
+
+
+
+/* Account for .intro-anim scaling */
+/* .intro-anim.is-visible has transform: scale(1.442) */
+/* So we need to scale down to compensate */
+.intro-anim.is-visible .intro-logo-svg {
+  /* Counter the parent scale of 1.442 */
+  transform: translate(-50%, -50%) scale(0.6935);
+}
+
+/* Hide Lottie animation background, show only text/logo */
+.intro-anim svg {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Text animation wrapper - ensures perfect centering */
+.intro-text-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 30px;
+  box-sizing: border-box;
+  z-index: 10;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .intro-text-wrapper {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-text-wrapper {
+    padding: 0 50px;
+  }
+}
+
+/* Text animation container */
+.intro-text-animation {
+  position: relative;
+  display: inline-flex;
+  gap: 0;
+  font-family: 'Monument Extended Bold', sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  font-size: 3.8vw;
+  max-width: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+  overflow: visible; /* Important for slide animations */
+}
+
+/* Individual letters - GSAP handles all animations */
+.intro-text-animation .letter {
+  display: inline-block;
+  opacity: 0;
+  position: relative; /* Keep relative for natural spacing, GSAP animates x from here */
+}
+
+/* Responsive sizing */
+@media (max-width: 1024px) {
+  .intro-text-animation {
+    font-size: 5vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .intro-text-animation {
+    font-size: 4.2vw;
+    letter-spacing: 0.01em;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-text-animation {
+    font-size: 3.8vw;
+    letter-spacing: 0;
+    max-width: 95vw;
+  }
+}
+
+@media (min-width: 1920px) {
+  .intro-text-animation {
+    font-size: 95px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .intro-text-animation {
+    font-size: 130px;
+  }
+}

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigation Config Test</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+      background: #1a1a1a;
+      color: #fff;
+    }
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #333;
+      border-radius: 5px;
+    }
+    .test-section h3 {
+      margin-top: 0;
+      color: #4CAF50;
+    }
+    .status {
+      padding: 5px 10px;
+      margin: 5px 0;
+      border-radius: 3px;
+    }
+    .status.success {
+      background: #4CAF50;
+      color: #000;
+    }
+    .status.error {
+      background: #f44336;
+      color: #fff;
+    }
+    .status.warning {
+      background: #ff9800;
+      color: #000;
+    }
+    .status.info {
+      background: #2196F3;
+      color: #fff;
+    }
+    pre {
+      background: #000;
+      padding: 10px;
+      border-radius: 3px;
+      overflow-x: auto;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      background: #4CAF50;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    
+    /* Mock navigation */
+    .mock-nav {
+      background: #333;
+      padding: 20px;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    .mock-nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 20px;
+    }
+    .mock-nav li {
+      display: inline-block;
+    }
+    .mock-nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 5px 10px;
+      border: 1px solid #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧭 Navigation Config Test</h1>
+  
+  <div class="test-section">
+    <h3>Mock Navigation (Desktop & Mobile)</h3>
+    <div class="mock-nav">
+      <nav class="header__subnav">
+        <ul>
+          <li data-slug="homepage">
+            <a href="#" data-slug="homepage">Homepage</a>
+          </li>
+          <li data-slug="works">
+            <a href="#" data-slug="works">Works</a>
+          </li>
+          <li data-slug="about">
+            <a href="#" data-slug="about">About</a>
+          </li>
+          <li data-slug="contact">
+            <a href="#" data-slug="contact">Contact</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div id="nav-status"></div>
+  </div>
+  
+  <div class="test-section">
+    <h3>Config Loading Test</h3>
+    <div id="config-status"></div>
+    <button onclick="checkConfig()">Refresh Config Check</button>
+  </div>
+  
+  <div class="test-section">
+    <h3>Navigation Settings</h3>
+    <pre id="nav-config">Loading...</pre>
+  </div>
+  
+  <div class="test-section">
+    <h3>Visibility Status</h3>
+    <div id="visibility-status"></div>
+    <button onclick="checkVisibility()">Check Navigation Visibility</button>
+  </div>
+  
+  <script src="assets/js/site-config.js"></script>
+  
+  <script>
+    function checkConfig() {
+      const configStatus = document.getElementById('config-status');
+      
+      if (window.siteConfig) {
+        configStatus.innerHTML = '<div class="status success">✅ window.siteConfig is loaded</div>';
+        displayNavConfig();
+        checkVisibility();
+      } else {
+        configStatus.innerHTML = '<div class="status error">❌ window.siteConfig is NOT loaded</div>';
+        setTimeout(checkConfig, 500); // Retry
+      }
+    }
+    
+    function displayNavConfig() {
+      const navConfig = document.getElementById('nav-config');
+      
+      if (!window.siteConfig) {
+        navConfig.textContent = 'Config not loaded yet...';
+        return;
+      }
+      
+      const nav = window.siteConfig.features?.navigation || {};
+      
+      navConfig.textContent = JSON.stringify({
+        worksPage: nav.worksPage,
+        aboutPage: nav.aboutPage,
+        contactPage: nav.contactPage
+      }, null, 2);
+    }
+    
+    function checkVisibility() {
+      const visibilityStatus = document.getElementById('visibility-status');
+      const navStatus = document.getElementById('nav-status');
+      
+      const navItems = {
+        homepage: document.querySelector('li[data-slug="homepage"]'),
+        works: document.querySelector('li[data-slug="works"]'),
+        about: document.querySelector('li[data-slug="about"]'),
+        contact: document.querySelector('li[data-slug="contact"]')
+      };
+      
+      let statusHTML = '';
+      let summaryHTML = '<div class="status info">Navigation Items Status:</div>';
+      
+      Object.entries(navItems).forEach(([page, element]) => {
+        if (element) {
+          const display = window.getComputedStyle(element).display;
+          const isVisible = display !== 'none';
+          const configEnabled = window.siteConfig?.features?.navigation?.[page + 'Page']?.enabled;
+          
+          const status = isVisible ? 'success' : 'warning';
+          const icon = isVisible ? '✅' : '❌';
+          
+          statusHTML += `
+            <div class="status ${status}">
+              ${icon} <strong>${page}</strong>: ${isVisible ? 'VISIBLE' : 'HIDDEN'} 
+              (display: ${display})
+              ${configEnabled !== undefined ? ` - Config: ${configEnabled ? 'enabled' : 'disabled'}` : ''}
+            </div>
+          `;
+          
+          summaryHTML += `<div>${icon} ${page.toUpperCase()}</div>`;
+        } else {
+          statusHTML += `<div class="status error">❌ ${page}: Element not found</div>`;
+        }
+      });
+      
+      visibilityStatus.innerHTML = statusHTML;
+      navStatus.innerHTML = summaryHTML;
+    }
+    
+    // Auto-run checks
+    setInterval(() => {
+      checkConfig();
+    }, 1000);
+    
+    // Initial run
+    checkConfig();
+  </script>
+</body>
+</html>

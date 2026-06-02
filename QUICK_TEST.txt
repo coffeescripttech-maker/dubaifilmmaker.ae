@@ -1,0 +1,69 @@
+🔧 QUICK CONFIG TEST
+====================
+
+1. Open index.html in your browser
+2. Open Console (F12)
+3. Paste this command:
+
+setTimeout(() => {
+  console.log('=== CONFIG TEST ===');
+  console.log('Config loaded?', window.siteConfig ? '✅ YES' : '❌ NO');
+  
+  // Navigation visibility
+  const nav = window.siteConfig?.features?.navigation;
+  console.log('\n📍 NAVIGATION VISIBILITY:');
+  console.log('  Works enabled?', nav?.worksPage?.enabled ? '✅ YES' : '❌ NO');
+  console.log('  About enabled?', nav?.aboutPage?.enabled ? '✅ YES' : '❌ NO (HIDDEN)');
+  console.log('  Contact enabled?', nav?.contactPage?.enabled ? '✅ YES' : '❌ NO');
+  
+  // Mobile features
+  console.log('\n📱 MOBILE FEATURES:');
+  console.log('  Navigation arrows enabled?', window.siteConfig?.features?.mobileNavigation?.navigationArrows?.enabled ? '✅ YES' : '❌ NO');
+  console.log('  Is mobile?', window.innerWidth < 768 ? '✅ YES (' + window.innerWidth + 'px)' : '❌ NO (' + window.innerWidth + 'px)');
+  
+  // CSS classes
+  console.log('\n🎨 CSS CLASSES:');
+  console.log('  mobile-arrows-enabled?', document.documentElement.classList.contains('mobile-arrows-enabled') ? '✅ YES' : '❌ NO');
+  console.log('  hide-nav-about?', document.documentElement.classList.contains('hide-nav-about') ? '✅ YES (About hidden)' : '❌ NO');
+  
+  // Check actual visibility
+  console.log('\n👁️ ACTUAL VISIBILITY:');
+  const aboutLi = document.querySelector('.header__subnav li[data-slug="about"]');
+  if (aboutLi) {
+    const style = window.getComputedStyle(aboutLi);
+    console.log('  About <li> display:', style.display, style.display === 'none' ? '(HIDDEN ✅)' : '(VISIBLE ❌)');
+  } else {
+    console.log('  About <li> element: NOT FOUND');
+  }
+  
+  const worksLi = document.querySelector('.header__subnav li[data-slug="works"]');
+  if (worksLi) {
+    const style = window.getComputedStyle(worksLi);
+    console.log('  Works <li> display:', style.display, style.display === 'none' ? '(HIDDEN)' : '(VISIBLE ✅)');
+  }
+  
+  const contactLi = document.querySelector('.header__subnav li[data-slug="contact"]');
+  if (contactLi) {
+    const style = window.getComputedStyle(contactLi);
+    console.log('  Contact <li> display:', style.display, style.display === 'none' ? '(HIDDEN)' : '(VISIBLE ✅)');
+  }
+  
+  console.log('=== END TEST ===');
+}, 2000);
+
+4. Wait 2 seconds for result
+
+Expected output if working:
+✅ Config loaded? YES
+📍 NAVIGATION VISIBILITY:
+  ✅ Works enabled? YES
+  ❌ About enabled? NO (HIDDEN)
+  ✅ Contact enabled? YES
+🎨 CSS CLASSES:
+  ✅ hide-nav-about? YES (About hidden)
+👁️ ACTUAL VISIBILITY:
+  About <li> display: none (HIDDEN ✅)
+  Works <li> display: list-item (VISIBLE ✅)
+  Contact <li> display: list-item (VISIBLE ✅)
+
+If About is still visible, check CONFIG_FIX_SUMMARY.md
