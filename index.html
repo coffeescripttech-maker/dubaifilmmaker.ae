@@ -1970,6 +1970,7 @@
             // Swipe left = next project
             if (swipeDistanceX < 0) {
               console.log('👈 Swipe left detected - next project');
+              // Only click the FIRST next button to avoid double increment
               const nextButton = document.querySelector('.arrow-next');
               if (nextButton) {
                 nextButton.click();
@@ -1978,6 +1979,7 @@
             // Swipe right = previous project
             else if (swipeDistanceX > 0) {
               console.log('👉 Swipe right detected - previous project');
+              // Only click the FIRST prev button to avoid double increment
               const prevButton = document.querySelector('.arrow-prev');
               if (prevButton) {
                 prevButton.click();
