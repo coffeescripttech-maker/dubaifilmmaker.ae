@@ -1679,7 +1679,15 @@
         }
         
         // onPrevClick - handle all prev arrows (mobile + desktop)
+        // Remove old listeners by cloning nodes
         mobileArrowPrev.forEach(arrow => {
+          const newArrow = arrow.cloneNode(true);
+          arrow.parentNode.replaceChild(newArrow, arrow);
+        });
+        
+        // Re-select after cloning
+        const cleanPrevArrows = document.querySelectorAll('.arrow-prev');
+        cleanPrevArrows.forEach(arrow => {
           arrow.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -1692,7 +1700,15 @@
         });
         
         // onNextClick - handle all next arrows (mobile + desktop)
+        // Remove old listeners by cloning nodes
         mobileArrowNext.forEach(arrow => {
+          const newArrow = arrow.cloneNode(true);
+          arrow.parentNode.replaceChild(newArrow, arrow);
+        });
+        
+        // Re-select after cloning
+        const cleanNextArrows = document.querySelectorAll('.arrow-next');
+        cleanNextArrows.forEach(arrow => {
           arrow.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
