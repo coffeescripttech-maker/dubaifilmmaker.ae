@@ -1945,9 +1945,16 @@
         let touchEndX = 0;
         let touchStartY = 0;
         let touchEndY = 0;
+        let swipeListenersAttached = false; // Flag to prevent duplicate attachment
         
         // Wait for video wrapper to be available
         function attachSwipeListeners() {
+          // Prevent duplicate attachment
+          if (swipeListenersAttached) {
+            console.log('⏭️ Swipe listeners already attached, skipping...');
+            return;
+          }
+          
           const videoWrapper = document.querySelector('.box--home__wrapper');
           
           if (!videoWrapper) {
@@ -1958,18 +1965,28 @@
           
           console.log('✓ Video wrapper found, attaching swipe listeners');
           
+          // Remove old listeners by replacing the element
+          const newWrapper = videoWrapper.cloneNode(true);
+          videoWrapper.parentNode.replaceChild(newWrapper, videoWrapper);
+          
+          // Re-select the new element
+          const freshWrapper = document.querySelector('.box--home__wrapper');
+          
           // Touch start
-          videoWrapper.addEventListener('touchstart', function(e) {
+          freshWrapper.addEventListener('touchstart', function(e) {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
           }, { passive: true });
           
           // Touch end
-          videoWrapper.addEventListener('touchend', function(e) {
+          freshWrapper.addEventListener('touchend', function(e) {
             touchEndX = e.changedTouches[0].screenX;
             touchEndY = e.changedTouches[0].screenY;
             handleSwipeGesture();
           }, { passive: true });
+          
+          // Mark as attached
+          swipeListenersAttached = true;
           
           function handleSwipeGesture() {
             const swipeDistanceX = touchEndX - touchStartX;
@@ -1983,22 +2000,34 @@
             // Check if swipe distance exceeds threshold
             if (Math.abs(swipeDistanceX) < swipeThreshold) return;
             
+            // Get current video index from the active list item
+            const activeItem = document.querySelector('.list--home li.is-active');
+            const currentIndex = activeItem ? parseInt(activeItem.getAttribute('data-project-index')) : 0;
+            const totalVideos = document.querySelectorAll('.js-main-video').length;
+            
+            let nextIndex;
+            
             // Swipe left = next project
             if (swipeDistanceX < 0) {
               console.log('👈 Swipe left detected - next project');
-              // Only click the FIRST next button to avoid double increment
-              const nextButton = document.querySelector('.arrow-next');
-              if (nextButton) {
-                nextButton.click();
-              }
+              nextIndex = currentIndex + 1;
+              if (nextIndex >= totalVideos) nextIndex = 0;
             }
             // Swipe right = previous project
             else if (swipeDistanceX > 0) {
               console.log('👉 Swipe right detected - previous project');
-              // Only click the FIRST prev button to avoid double increment
-              const prevButton = document.querySelector('.arrow-prev');
-              if (prevButton) {
-                prevButton.click();
+              nextIndex = currentIndex - 1;
+              if (nextIndex < 0) nextIndex = totalVideos - 1;
+            }
+            
+            console.log(`🔄 Swipe: ${currentIndex + 1}/${totalVideos} → ${nextIndex + 1}/${totalVideos}`);
+            
+            // Directly switch to the video by clicking the list item link
+            const targetItem = document.querySelector(`.list--home li[data-project-index="${nextIndex}"]`);
+            if (targetItem) {
+              const link = targetItem.querySelector('.js-change-video');
+              if (link) {
+                link.click();
               }
             }
           }
@@ -2006,11 +2035,13 @@
           console.log('✓ Touch swipe gestures initialized (threshold: ' + swipeThreshold + 'px)');
         }
         
+        // Only attach once on initial load
         attachSwipeListeners();
         
         // Re-initialize when slider is rendered (for SPA navigation)
+        // The flag prevents duplicate attachment
         window.addEventListener('slider-rendered', function() {
-          console.log('🔄 Re-initializing swipe gestures after slider render');
+          console.log('🔄 Checking if swipe gestures need re-initialization...');
           setTimeout(attachSwipeListeners, 200);
         });
       }
